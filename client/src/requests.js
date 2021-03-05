@@ -14,6 +14,22 @@ async function graphQLRequest(query, variables={}){
   return responseBody.data;
 }
 
+export async function loadCompany(id) {
+  const query = `query CompanyQuery($id: ID!){
+    company(id: $id) {
+      id
+      name
+      description
+      jobs {
+        id
+        title
+      }
+    }
+  }`;
+  const {company} = await graphQLRequest(query, {id});
+  return company;
+};
+
 export async function loadJobs() {
   const query = `{
     jobs {
@@ -24,8 +40,8 @@ export async function loadJobs() {
         name
       }
     }
-  }`
-  const {jobs} = await graphQLRequest(query)
+  }`;
+  const {jobs} = await graphQLRequest(query);
   return jobs;
 }
 
@@ -40,7 +56,7 @@ export async function loadJob(id) {
       }
       description
     }
-  }`
-  const {job} = await graphQLRequest(query, {id})
+  }`;
+  const {job} = await graphQLRequest(query, {id});
   return job;
 }
